@@ -1,101 +1,197 @@
+"use client";
+
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import PrimaryLoading from "@/components/loading/PrimaryLoading";
+import PrimaryNavbar from "@/components/navbar/PrimaryNavbar";
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+const HomePage = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setLoading] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("https://fakestoreapi.com/products");
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  return (
+    <main className="relative">
+      <div className="absolute z-0 top-96 hidden lg:block">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1365"
+          height="1785"
+          viewBox="0 0 1365 1785"
+          fill="none"
+        >
+          <g filter="url(#filter0_f_58_1103)">
+            <path
+              d="M444.333 862.685C697.293 746.314 670.57 981.129 656.158 1084.56L-43.4536 1074C-57.4074 936.891 7.93945 689.233 90.0648 701.312C300.481 732.26 217.925 966.841 444.333 862.685Z"
+              fill="#007397"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          </g>
+          <defs>
+            <filter
+              id="filter0_f_58_1103"
+              x="-745.34"
+              y="0.88623"
+              width="2110.12"
+              height="1783.67"
+              filterUnits="userSpaceOnUse"
+              colorInterpolationFilters="sRGB"
+            >
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
+              <feBlend
+                mode="normal"
+                in="SourceGraphic"
+                in2="BackgroundImageFix"
+                result="shape"
+              />
+              <feGaussianBlur
+                stdDeviation="350"
+                result="effect1_foregroundBlur_58_1103"
+              />
+            </filter>
+          </defs>
+        </svg>
+      </div>
+      <div className="absolute z-0 bottom-16 right-0 hidden lg:block">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1428"
+          height="1473"
+          viewBox="0 0 1428 1473"
+          fill="none"
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <g filter="url(#filter0_f_58_1106)">
+            <path
+              d="M949.25 822.204C843.304 627.46 1125.7 715.165 1249.72 755.463L1137.6 1193.78C968.515 1161.23 675.945 1045.27 702.317 997.089C769.884 873.637 1044.08 996.506 949.25 822.204Z"
+              fill="#007397"
+            />
+          </g>
+          <defs>
+            <filter
+              id="filter0_f_58_1106"
+              x="0.648438"
+              y="0.520996"
+              width="1949.07"
+              height="1893.26"
+              filterUnits="userSpaceOnUse"
+              colorInterpolationFilters="sRGB"
+            >
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
+              <feBlend
+                mode="normal"
+                in="SourceGraphic"
+                in2="BackgroundImageFix"
+                result="shape"
+              />
+              <feGaussianBlur
+                stdDeviation="350"
+                result="effect1_foregroundBlur_58_1106"
+              />
+            </filter>
+          </defs>
+        </svg>
+      </div>
+      <article className="container mx-auto">
+        <PrimaryNavbar />
+        <section className="flex flex-row items-center justify-between relative my-12">
+          <div className="flex space-x-5 overflow-x-auto">
+            <button
+              className={`text-white font-bold rounded-lg py-3 px-5 ${"border-2 from-cyan-400 "}`}
+            >
+              All
+            </button>
+            <button
+              className={`text-white font-bold rounded-lg py-3 px-5 ${"border-2 from-cyan-400 "}`}
+            >
+              Electronics
+            </button>
+            <button
+              className={`text-white font-bold rounded-lg py-3 px-5 ${"border-2 from-cyan-400 "}`}
+            >
+              Jewelery
+            </button>
+            <button
+              className={`text-white font-bold rounded-lg py-3 px-5 ${"border-2 from-cyan-400 "}`}
+            >
+              Men's Clothing
+            </button>
+            <button
+              className={`text-white font-bold rounded-lg py-3 px-5 ${"border-2 from-cyan-400 "}`}
+            >
+              Women's Clothing
+            </button>
+          </div>
+        </section>
+        <section>
+          {isLoading ? (
+            <div className="mt-[10rem]">
+              <PrimaryLoading />
+            </div>
+          ) : products.length > 0 ? (
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+              {products.map((product) => (
+                <Link
+                  href={`/product/${product.id}`}
+                  key={product.id}
+                  className="bg-zinc-900 rounded-lg p-5"
+                >
+                  <div className="relative h-[20rem] w-full">
+                    <Image
+                      className="rounded-lg object-cover h-80 w-full"
+                      src={product.image}
+                      alt={product.title}
+                      height={80}
+                      width={80}
+                    />
+                  </div>
+                  <h3 className="text-white text-xl lg:text-2xl truncate mt-3 mb-3">
+                    {product.title}
+                  </h3>
+                  <p className="text-cyan-400 text-lg lg:text-2xl mt-6">
+                    ${Number(product.price)}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-y-5">
+              <img className="w-44" src="images/not-found.png" alt="" />
+              <div className="flex flex-col items-center">
+                <p className="font-bold text-[24px] text-[#F3F3F3]">
+                  Result Not Found
+                </p>
+                <p className="font-bold text-[16px] text-[#6F6F73]">
+                  Please try again with another keywords or maybe use generic
+                  term
+                </p>
+              </div>
+            </div>
+          )}
+        </section>
+        <section>
+          <hr className="border-gray-800" />
+          <p className="text-gray-500 my-10">
+            &copy; 2024 TerraX. All Right Reserved
+          </p>
+        </section>
+      </article>
+    </main>
   );
-}
+};
+
+export default HomePage;
